@@ -26,6 +26,7 @@ def connect_to_database():
     con = sqlite3.connect("moodle_data_cache.db")
     return con
 
+
 def get_cached_moodle_data(login_username, data_table):
 
     database_connection = connect_to_database()

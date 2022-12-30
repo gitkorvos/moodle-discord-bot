@@ -57,8 +57,9 @@ async def main():
 
     exts = ['Extensions.deadline']
     async with CustomBot(commands.when_mentioned, initial_extensions=exts, testing_guild_id=1047097921998442557, intents=discord.Intents.all()) as bot:
+        print(os.getenv("DISCORD_BOT_TOKEN"))
         print("starting")
-        await bot.start('MTAzMDU3MjU5NjQ5MzgyMDA3NQ.GwbfMS.piI0FoAxzxwXLdj87AheJtsjHr4EALcWKls1Gg')
+        await bot.start(os.getenv("DISCORD_BOT_TOKEN"))
 
 
 # For most use cases, after defining what needs to run, we can just tell asyncio to run it:

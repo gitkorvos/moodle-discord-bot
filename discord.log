@@ -3162,3 +3162,6 @@ Backtrace:
 [2022-12-30 20:57:46] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
 [2022-12-30 20:57:46] [INFO    ] discord.client: logging in using static token
 [2022-12-30 20:57:48] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 1bd94417af6ea749b231f043b6b772a9).
+[2022-12-30 21:48:25] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2022-12-30 21:57:41] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2022-12-30 21:57:41] [INFO    ] discord.client: logging in using static token
