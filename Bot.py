@@ -4,6 +4,7 @@ import asyncio
 import logging
 import sqlite3
 import logging.handlers
+from dotenv import dotenv_values
 import os
 
 from typing import List, Optional
@@ -40,6 +41,9 @@ class CustomBot(commands.Bot):
 
 async def main():
 
+    # Get environmental variables from the config.env file
+    config = dotenv_values("config.env")
+
     logger = logging.getLogger('discord')
     logger.setLevel(logging.INFO)
 
@@ -57,12 +61,10 @@ async def main():
 
     exts = ['Extensions.deadline']
     async with CustomBot(commands.when_mentioned, initial_extensions=exts, testing_guild_id=1047097921998442557, intents=discord.Intents.all()) as bot:
-        print(os.getenv("DISCORD_BOT_TOKEN"))
-        print("starting")
-        await bot.start(os.getenv("DISCORD_BOT_TOKEN"))
+        print("Starting")
+        await bot.start(config['DISCORD_BOT_TOKEN'])
 
 
 # For most use cases, after defining what needs to run, we can just tell asyncio to run it:
 asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-
 asyncio.run(main())

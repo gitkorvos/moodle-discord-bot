@@ -7,13 +7,14 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import json
 import re
+import os
+
 
 from selenium.webdriver.edge.options import Options
 
 import sqlite3
 
 edge_options = Options()
-
 edge_options.add_argument("--headless")
 
 from datetime import datetime, timedelta
@@ -23,9 +24,35 @@ HOURS_BETWEEN_CACHE = 3
 
 # TESTING ONLY
 def connect_to_database():
-    con = sqlite3.connect("moodle_data_cache.db")
-    return con
+    database_exists = False
 
+    if os.path.exists("data.db"):
+        database_exists = True
+
+    connection = sqlite3.connect("data.db")
+
+    # Create the tables if the database is being created for the first time
+    if not database_exists:
+        database_cursor = connection.cursor()
+
+        database_cursor.executescript('''
+            CREATE TABLE accounts (
+                discord_id TEXT PRIMARY KEY,
+                username TEXT,
+                password TEXT
+            );
+            
+            CREATE TABLE events (
+                username TEXT PRIMARY KEY,
+                last_updated TEXT,
+                data TEXT
+            );
+        ''')
+
+        connection.commit()
+        database_cursor.close()
+    
+    return connection
 
 def get_cached_moodle_data(login_username, data_table):
 
@@ -90,6 +117,7 @@ def get_events_data(login_username, login_password):
     events_show_button.click()
 
     wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, '[data-action="more-events"]')))
+    time.sleep(1)
 
     deadline_events = driver.find_elements(By.CLASS_NAME, 'timeline-event-list-item')
 
@@ -151,5 +179,3 @@ def register_account(discord_id, username, password):
     database_cursor.execute(SQL_QUERY_CACHE, (discord_id, username, password))
     database_connection.commit()
 
-
-get_events_data("UP946626", "Runesc123@")
